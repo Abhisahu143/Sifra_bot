@@ -56,11 +56,6 @@ jaraco.context==6.0.1
 Jinja2==3.1.5
 jiter==0.8.2
 Js2Py==0.74
-Kivy==2.3.1
-Kivy-Garden==0.1.5
-kivy_deps.angle==0.4.0
-kivy_deps.glew==0.3.1
-kivy_deps.sdl2==0.8.0
 kiwisolver==1.4.8
 magic-filter==1.0.12
 MarkupSafe==3.0.2
