@@ -22,8 +22,8 @@ A highly advanced, AI-powered Telegram assistant bot built using Python and the 
 
 1. **Clone the repository:**
    ```bash
-   git clone <your-repository-url>
-   cd <your-repository-directory>
+   git clone https://github.com/Abhisahu143/Sifra_bot.git
+   cd Sifra_bot
    ```
 
 2. **Install the required packages:**
