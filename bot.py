@@ -19,7 +19,7 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 # Initialize bot and dispatcher
-bot = Bot(token=config.BOT_TOKEN, default=DefaultBotProperties(parse_mode=ParseMode.MARKDOWN_V2))
+bot = Bot(token=config.BOT_TOKEN, default=DefaultBotProperties(parse_mode=None))
 dp = Dispatcher()
 
 # Bot Commands
@@ -30,13 +30,11 @@ async def command_start_handler(message: types.Message) -> None:
     await db.add_user(user.id, user.username, user.first_name)
     
     welcome_text = (
-        f"Hello {hbold(user.first_name)}! 👋\n\n"
+        f"Hello {user.first_name}! 👋\n\n"
         "I am your Pro-Level AI Assistant. I can help you with coding, writing, research, and more!\n"
         "Just ask me anything to get started.\n\n"
         "/clear - Clear your conversational context/history"
     )
-    # Simple escape for markdown v2
-    welcome_text = welcome_text.replace('.', '\\.').replace('!', '\\!').replace('-', '\\-')
     await message.answer(welcome_text)
 
 @dp.message(Command("image"))
@@ -133,13 +131,8 @@ async def generic_message_handler(message: types.Message) -> None:
         await db.add_message(user_id, "bot", response)
         await db.inc_message_count(user_id)
         
-        # Send response safely - fallback to HTML or plain if Markdown fails
-        try:
-            await message.answer(response)
-        except Exception as e:
-            # If markdown parse fails, send without formatting
-            logger.error(f"Markdown parse error: {e}")
-            await bot.send_message(chat_id=message.chat.id, text=response, parse_mode=None)
+        # Send as plain text - avoids MarkdownV2 parse errors on AI responses
+        await message.answer(response)
 
     except Exception as e:
         logger.error(f"Error handling message: {e}")
